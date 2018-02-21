@@ -131,10 +131,12 @@ rl.on('line', function(move) {
   } else if (game.movesLeft === 0 && move.toLowerCase() === "no") {
     rl.close();
   } else if (game.board[move] !== Number(move) || game.movesLeft === 0) {
+    game.board[move] = game.currentPiece;
     game.displayBoard();
     console.log("INVALID MOVE ", game.currentPiece);
   } else {
     if (game.checkWinningMoves(move)) {
+      game.board[move] = game.currentPiece;
       game.displayBoard();
       console.log(game.currentPiece," wins!!!\n Play again? [Yes or No]");
       game.movesLeft=0;

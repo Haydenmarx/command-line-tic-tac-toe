@@ -35,10 +35,86 @@ class TicTacToe {
   checkWinningMoves(num) {
     switch(num) {
       case '1':
-        console.log(num);
+        if (
+          this.board[2] === this.currentPiece && this.board[3] === this.currentPiece ||
+          this.board[5] === this.currentPiece && this.board[9] === this.currentPiece ||
+          this.board[4] === this.currentPiece && this.board[7] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '2':
+        if (
+          this.board[1] === this.currentPiece && this.board[3] === this.currentPiece ||
+          this.board[5] === this.currentPiece && this.board[8] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '3':
+        if (
+          this.board[2] === this.currentPiece && this.board[1] === this.currentPiece ||
+          this.board[5] === this.currentPiece && this.board[7] === this.currentPiece ||
+          this.board[6] === this.currentPiece && this.board[9] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '4':
+        if (
+          this.board[1] === this.currentPiece && this.board[7] === this.currentPiece ||
+          this.board[5] === this.currentPiece && this.board[6] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '5':
+        if (
+          this.board[4] === this.currentPiece && this.board[6] === this.currentPiece ||
+          this.board[2] === this.currentPiece && this.board[8] === this.currentPiece ||
+          this.board[1] === this.currentPiece && this.board[9] === this.currentPiece ||
+          this.board[3] === this.currentPiece && this.board[7] === this.currentPiece
+          
+        ) {
+          return true;
+        }
+        break;
+      case '6':
+        if (
+          this.board[4] === this.currentPiece && this.board[5] === this.currentPiece ||
+          this.board[3] === this.currentPiece && this.board[9] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+        case '7':
+        if (
+          this.board[1] === this.currentPiece && this.board[4] === this.currentPiece ||
+          this.board[3] === this.currentPiece && this.board[5] === this.currentPiece ||
+          this.board[8] === this.currentPiece && this.board[9] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '8':
+        if (
+          this.board[7] === this.currentPiece && this.board[9] === this.currentPiece ||
+          this.board[2] === this.currentPiece && this.board[5] === this.currentPiece
+        ) {
+          return true;
+        }
+        break;
+      case '9':
+        if (
+          this.board[7] === this.currentPiece && this.board[8] === this.currentPiece ||
+          this.board[3] === this.currentPiece && this.board[6] === this.currentPiece ||
+          this.board[1] === this.currentPiece && this.board[5] === this.currentPiece
+        ) {
+          return true;
+        }
         break;
       default:
-        console.log(false);
+        return false;
     }
   }
 
@@ -48,19 +124,31 @@ var game = new TicTacToe();
 game.displayBoard();
 console.log(game.currentPiece, " Pick a Number: ")
 rl.on('line', function(move) {
-  if (game.board[move] !== Number(move)) {
+  if (game.movesLeft === 0 && move.toLowerCase() === "yes") {
+    game = new TicTacToe();
+    game.displayBoard();
+    console.log(game.currentPiece, " Pick a Number: ")
+  } else if (game.movesLeft === 0 && move.toLowerCase() === "no") {
+    rl.close();
+  } else if (game.board[move] !== Number(move) || game.movesLeft === 0) {
     game.displayBoard();
     console.log("INVALID MOVE ", game.currentPiece);
   } else {
-    game.checkWinningMoves(move);
-    game.movesLeft--;
-    game.board[move] = game.currentPiece;
-    if (game.movesLeft === 0) {
-      rl.close();
+    if (game.checkWinningMoves(move)) {
+      game.displayBoard();
+      console.log(game.currentPiece," wins!!!\n Play again? [Yes or No]");
+      game.movesLeft=0;
+    } else {
+      game.movesLeft--;
+      game.board[move] = game.currentPiece;
+      if (game.movesLeft === 0) {
+        console.log("GAME OVER. NO MOVES LEFT!!!\n Play again? [Yes or No]");
+      } else {
+        game.displayBoard();
+        game.currentPiece === 'X' ? game.currentPiece = 'O' : game.currentPiece = 'X';
+        console.log(game.currentPiece, " Pick a Number: ")
+      }
     }
-    game.displayBoard();
-    game.currentPiece === 'X' ? game.currentPiece = 'O' : game.currentPiece = 'X';
-    console.log(game.currentPiece, " Pick a Number: ")
   }  
 })
 

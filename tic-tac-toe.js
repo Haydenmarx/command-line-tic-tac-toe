@@ -41,7 +41,8 @@ class TicTacToe {
       [1, 2, 3],
       [4, 5, 6],
       [7, 8, 9],
-    ]
+    ];
+    this.currentPiece = 'X';
     this.movesLeft = 9;
   }
   displayBoard() {
@@ -83,16 +84,22 @@ class TicTacToe {
 
 var game = new TicTacToe();
 game.displayBoard();
-console.log("Pick a Number: ")
+console.log(game.currentPiece, " Pick a Number: ")
 rl.on('line', function(move) {
-  if (move < 4) {
-    game.board[0][move-1] = 'X';
-  } else if (move < 7) {
-    game.board[1][move-4] = 'X';
-  } else if (move < 10) {
-    game.board[2][move-7] = 'X';          
-  }
-  game.displayBoard();
-  console.log("Pick a Number: ")
 
+  if (move < 4) {
+    game.board[0][move-1] = game.currentPiece;
+  } else if (move < 7) {
+    game.board[1][move-4] = game.currentPiece;
+  } else if (move < 10) {
+    game.board[2][move-7] = game.currentPiece;          
+  }
+  game.movesLeft--;
+  game.displayBoard();
+  if (game.movesLeft === 0) {
+    rl.close();
+  }
+  game.currentPiece === 'X' ? game.currentPiece = 'O' : game.currentPiece = 'X';
+  console.log(game.currentPiece, " Pick a Number: ")
 })
+
